@@ -29,36 +29,31 @@ const appData = {
   // 本番の試験・面接予定と結果
   exams: [
     {
-      studentId: "26001",
+      studentId: "26211001",
       examName: "和歌山県庁",
       stage: "1次試験",
-      date: "2026-10-15T10:00",
+      examContent: "教養試験・専門試験",
+      date: "2026-10-15",
       status: "合格",
-      remarks: "筆記試験"
+      remarks: "午前9時集合"
     },
     {
-      studentId: "26001",
+      studentId: "26211001",
       examName: "和歌山県庁",
-      stage: "2次面接",
-      date: "2026-11-05T14:30",
+      stage: "2次試験",
+      examContent: "集団面接",
+      date: "2026-11-05",
       status: "結果待ち",
-      remarks: "集団面接"
+      remarks: "14:30〜 本庁舎"
     },
     {
-      studentId: "26002",
+      studentId: "26212001",
       examName: "和歌山市役所",
       stage: "1次試験",
-      date: "2026-10-20T09:00",
+      examContent: "基礎能力試験",
+      date: "2026-10-20",
       status: "結果待ち",
       remarks: ""
-    },
-    {
-      studentId: "26003",
-      examName: "国家公務員一般職",
-      stage: "最終面接",
-      date: "2026-10-25T13:00",
-      status: "結果待ち",
-      remarks: "オンライン面接"
     }
   ]
 };

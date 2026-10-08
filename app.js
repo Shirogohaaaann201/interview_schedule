@@ -90,7 +90,7 @@ function renderCalendar(date) {
         const time = exam.date.includes('T') ? exam.date.split('T')[1] : '';
         const studentName = student ? student.name : '不明な学生';
         
-        eventEl.innerHTML = `<strong>${studentName}</strong><br>${exam.examName}<br><span style="color:var(--muted); font-size:0.8rem;">${exam.stage} ${time}</span>`;
+        eventEl.innerHTML = `<strong>${studentName}</strong><br>${exam.examName}<br><span style="color:var(--muted); font-size:0.8rem;">${exam.stage}${exam.examContent ? '（' + exam.examContent + '）' : ''} ${time}</span>`;
         div.appendChild(eventEl);
       }
     });
@@ -171,7 +171,7 @@ function renderResultsTable() {
         <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 4px;">
           <span class="${badgeClass}">${exam.status || '結果待ち'}</span>
           <strong style="color: var(--primary); font-size: 1.05rem;">${exam.examName}</strong>
-          <span style="color: var(--text); background: var(--bg); padding: 2px 6px; border-radius: 4px; font-size: 0.85rem;">${exam.stage}</span>
+          <span style="color: var(--text); background: var(--bg); padding: 2px 6px; border-radius: 4px; font-size: 0.85rem;">${exam.stage}${exam.examContent ? '（' + exam.examContent + '）' : ''}</span>
         </div>
         <div style="font-size: 0.85rem; color: var(--muted); padding-left: 2px;">
           <span style="margin-right: 12px;">📅 ${dateFormatted}</span>
@@ -202,6 +202,7 @@ const closeModalBtn = document.getElementById('close-modal-btn');
 const formStudent = document.getElementById('form-student');
 const formExam = document.getElementById('form-exam');
 const formStage = document.getElementById('form-stage');
+const formContent = document.getElementById('form-content');
 const formDate = document.getElementById('form-date');
 const formStatus = document.getElementById('form-status');
 const formRemarks = document.getElementById('form-remarks');
@@ -251,7 +252,7 @@ function renderExistingExamsList() {
     const dateFormatted = exam.date.replace('T', ' ');
     div.innerHTML = `
       <div>
-        <strong>${s ? s.name : '不明'}</strong> | ${exam.examName} (${exam.stage})<br>
+        <strong>${s ? s.name : '不明'}</strong> | ${exam.examName} (${exam.stage}${exam.examContent ? ' / ' + exam.examContent : ''})<br>
         <span style="font-size:0.8rem; color:var(--muted);">${dateFormatted} | ${exam.status}</span>
       </div>
     `;
@@ -282,12 +283,13 @@ addExamBtn.addEventListener('click', () => {
   const sId = formStudent.value;
   const examName = formExam.value.trim();
   const stage = formStage.value.trim();
+  const examContentStr = formContent.value.trim();
   const date = formDate.value;
   const status = formStatus.value;
   const remarks = formRemarks.value.trim();
   
-  if (!examName || !stage || !date) {
-    alert('試験名、選考段階、日時は必須です。');
+  if (!examName || !stage) {
+    alert('試験名と選考段階は必須です。');
     return;
   }
   
@@ -295,7 +297,8 @@ addExamBtn.addEventListener('click', () => {
     studentId: sId,
     examName: examName,
     stage: stage,
-    date: date,
+    examContent: examContentStr,
+    date: date || '',
     status: status,
     remarks: remarks
   });
@@ -303,6 +306,7 @@ addExamBtn.addEventListener('click', () => {
   // フォームクリア
   formExam.value = '';
   formStage.value = '';
+  formContent.value = '';
   formDate.value = '';
   formRemarks.value = '';
   
