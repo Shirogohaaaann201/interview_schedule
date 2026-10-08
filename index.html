@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>公務員試験 面接・結果管理システム</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- 認証画面オーバーレイ -->
+  <div id="auth-overlay">
+    <div class="auth-box">
+      <h2>閲覧パスワード</h2>
+      <p style="font-size:0.85rem; color:var(--muted); line-height: 1.4;">
+        情報を表示するにはパスワードを入力してください。<br>
+        <span style="display:inline-block; margin-top:8px; padding:4px 8px; background:#f1f5f9; border-radius:4px; font-weight:600;">初期パスワード: admin</span>
+      </p>
+      <input type="password" id="auth-input" placeholder="パスワードを入力">
+      <button id="auth-btn">認証して閲覧する</button>
+      <p id="auth-error" style="color:var(--danger); font-size:0.85rem; margin-top:12px; display:none; font-weight:500;">
+        パスワードが違います
+      </p>
+    </div>
+  </div>
+
+  <!-- ヘッダー -->
+  <header>
+    <h1>公務員試験 面接・結果管理システム</h1>
+    <div style="display:flex; align-items:center; gap:16px;">
+      <div style="font-size: 0.9rem; color: #cbd5e1;">※管理者は編集ボタンから更新可能</div>
+      <button id="open-edit-btn" style="padding:6px 12px; background:var(--accent); color:white; border:none; border-radius:4px; font-weight:600; cursor:pointer;">✏️ データ編集</button>
+    </div>
+  </header>
+
+  <!-- タブナビゲーション（将来の統合を見据えた枠組み） -->
+  <div class="tabs">
+    <div class="tab active">本番試験・面接結果</div>
+    <div class="tab" style="opacity: 0.5; cursor: not-allowed;" title="将来的に既存の面接演習管理システムを統合可能にするための枠です">面接演習スケジュール（準備中）</div>
+  </div>
+
+  <!-- メインコンテンツ領域 -->
+  <div class="container" id="main-content" style="display:none;">
+    
+    <!-- カレンダーパネル -->
+    <div class="panel">
+      <div class="panel-title">
+        <span>🗓 試験・面接日程カレンダー</span>
+        <div class="calendar-header">
+          <button id="prev-month">◀ 先月</button>
+          <span id="current-month" style="margin: 0 20px; font-weight: 700; font-size: 1.25rem; color: var(--primary);"></span>
+          <button id="next-month">来月 ▶</button>
+        </div>
+      </div>
+      <div class="calendar-grid" id="calendar-grid">
+        <!-- JSで自動生成されます -->
+      </div>
+    </div>
+
+    <!-- 結果一覧パネル -->
+    <div class="panel">
+      <div class="panel-title">📋 学生別 受験結果まとめ</div>
+      <div style="overflow-x: auto;">
+        <table id="results-table">
+          <thead>
+            <tr>
+              <th style="width: 100px;">学籍番号</th>
+              <th style="width: 180px;">氏名</th>
+              <th>受験情報（試験名・選考段階・結果・日時）</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- JSで自動生成されます -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- データ編集モーダル -->
+  <div id="edit-modal" style="display:none; position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(15,23,42,0.8); z-index:2000; justify-content:center; align-items:center;">
+    <div style="background:white; width:90%; max-width:600px; max-height:90vh; border-radius:8px; display:flex; flex-direction:column; overflow:hidden;">
+      <div style="padding:16px 20px; background:var(--primary); color:white; display:flex; justify-content:space-between; align-items:center;">
+        <h2 style="font-size:1.1rem; margin:0;">データの追加・編集</h2>
+        <button id="close-modal-btn" style="background:transparent; border:none; color:white; font-size:1.5rem; cursor:pointer;">&times;</button>
+      </div>
+      <div style="padding:20px; overflow-y:auto; flex:1;">
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:16px;">
+          <div><label style="display:block; font-size:0.85rem; font-weight:600; margin-bottom:4px;">学生</label><select id="form-student" style="width:100%; padding:8px; border:1px solid var(--primary-border); border-radius:4px;"></select></div>
+          <div><label style="display:block; font-size:0.85rem; font-weight:600; margin-bottom:4px;">結果</label><select id="form-status" style="width:100%; padding:8px; border:1px solid var(--primary-border); border-radius:4px;"><option value="結果待ち">結果待ち</option><option value="合格">合格</option><option value="不合格">不合格</option><option value="辞退">辞退</option></select></div>
+          <div><label style="display:block; font-size:0.85rem; font-weight:600; margin-bottom:4px;">試験名</label><input type="text" id="form-exam" placeholder="例: 和歌山県庁" style="width:100%; padding:8px; border:1px solid var(--primary-border); border-radius:4px;"></div>
+          <div><label style="display:block; font-size:0.85rem; font-weight:600; margin-bottom:4px;">選考段階</label><input type="text" id="form-stage" placeholder="例: 1次試験" style="width:100%; padding:8px; border:1px solid var(--primary-border); border-radius:4px;"></div>
+          <div><label style="display:block; font-size:0.85rem; font-weight:600; margin-bottom:4px;">面接・試験日時</label><input type="datetime-local" id="form-date" style="width:100%; padding:8px; border:1px solid var(--primary-border); border-radius:4px;"></div>
+          <div><label style="display:block; font-size:0.85rem; font-weight:600; margin-bottom:4px;">備考</label><input type="text" id="form-remarks" placeholder="例: 筆記試験" style="width:100%; padding:8px; border:1px solid var(--primary-border); border-radius:4px;"></div>
+        </div>
+        <button id="add-exam-btn" style="width:100%; padding:10px; background:var(--accent); color:white; border:none; border-radius:4px; font-weight:600; cursor:pointer;">入力を追加・更新</button>
+        
+        <hr style="margin:24px 0; border:none; border-top:1px solid var(--border);">
+        
+        <h3 style="font-size:1rem; margin-bottom:12px;">登録済みのデータ（最新順）</h3>
+        <div id="existing-exams-list" style="display:flex; flex-direction:column; gap:8px;"></div>
+      </div>
+      <div style="padding:16px 20px; background:#f8fafc; border-top:1px solid var(--border); text-align:center;">
+        <button id="export-data-btn" style="width:100%; padding:12px; background:#16a34a; color:white; border:none; border-radius:4px; font-weight:600; cursor:pointer;">変更を保存（data.jsをダウンロード）</button>
+        <p style="font-size:0.8rem; color:var(--muted); margin-top:8px;">※ダウンロードしたファイルで元の data.js を上書きコミットしてください。</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- スクリプトの読み込み（データ → ロジックの順） -->
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

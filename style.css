@@ -1,0 +1,282 @@
+:root {
+  --bg: #f1f5f9;
+  --surface: #ffffff;
+  --primary: #1e293b;
+  --primary-border: #cbd5e1;
+  --accent: #2563eb;
+  --accent-hover: #1d4ed8;
+  --success: #16a34a;
+  --danger: #ef4444;
+  --warning: #ca8a04;
+  --highlight: #fef08a;
+  --text: #334155;
+  --text-dark: #0f172a;
+  --muted: #64748b;
+  --border: #e2e8f0;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Noto Sans JP', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* Header */
+header {
+  background: var(--primary);
+  color: white;
+  padding: 12px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+header h1 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+}
+
+/* Tabs (統合準備) */
+.tabs {
+  background: var(--surface);
+  padding: 0 24px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  gap: 24px;
+}
+
+.tab {
+  padding: 14px 4px;
+  cursor: pointer;
+  border-bottom: 3px solid transparent;
+  color: var(--muted);
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.tab.active {
+  border-bottom-color: var(--accent);
+  color: var(--accent);
+  font-weight: 600;
+}
+
+/* Layout container */
+.container {
+  padding: 24px;
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* Card panels */
+.panel {
+  background: var(--surface);
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05), 0 1px 2px rgba(0,0,0,0.1);
+  padding: 24px;
+}
+
+.panel-title {
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--text-dark);
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Calendar Grid */
+.calendar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.calendar-header button {
+  padding: 8px 16px;
+  background: var(--surface);
+  border: 1px solid var(--primary-border);
+  border-radius: 4px;
+  cursor: pointer;
+  color: var(--text-dark);
+  font-weight: 500;
+  transition: background 0.2s;
+}
+
+.calendar-header button:hover {
+  background: var(--bg);
+}
+
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.calendar-day-header {
+  background: #f8fafc;
+  padding: 10px;
+  text-align: center;
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+.calendar-cell {
+  background: var(--surface);
+  min-height: 120px;
+  padding: 8px;
+}
+
+.calendar-cell.other-month {
+  background: #f8fafc;
+}
+
+.calendar-cell.other-month .date-num {
+  color: var(--muted);
+}
+
+.date-num {
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: var(--text-dark);
+}
+
+.event-item {
+  background: #e0e7ff;
+  border-left: 3px solid var(--accent);
+  padding: 6px 8px;
+  font-size: 0.85rem;
+  margin-bottom: 6px;
+  border-radius: 0 4px 4px 0;
+  line-height: 1.4;
+}
+
+.event-item.status-passed {
+  border-left-color: var(--success);
+  background: #dcfce7;
+}
+
+.event-item.status-failed {
+  border-left-color: var(--danger);
+  background: #fee2e2;
+}
+
+/* Table */
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 16px 12px;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+
+th {
+  background: #f8fafc;
+  font-weight: 600;
+  color: var(--text-dark);
+  font-size: 0.95rem;
+}
+
+.badge {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  background: #e2e8f0;
+  color: var(--text-dark);
+}
+
+.badge.success {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.badge.waiting {
+  background: #fef9c3;
+  color: #854d0e;
+}
+
+.badge.danger {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+/* Auth Overlay */
+#auth-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(15, 23, 42, 0.95);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.auth-box {
+  background: var(--surface);
+  padding: 40px;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 360px;
+  text-align: center;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+.auth-box h2 {
+  color: var(--text-dark);
+  margin-bottom: 8px;
+}
+
+.auth-box input {
+  width: 100%;
+  padding: 12px;
+  margin: 24px 0 16px;
+  border: 1px solid var(--primary-border);
+  border-radius: 6px;
+  font-size: 1rem;
+}
+
+.auth-box input:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+}
+
+.auth-box button {
+  width: 100%;
+  padding: 12px;
+  background: var(--accent);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.auth-box button:hover {
+  background: var(--accent-hover);
+}
