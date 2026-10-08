@@ -173,8 +173,9 @@ function renderResultsTable() {
           <strong style="color: var(--primary); font-size: 1.05rem;">${exam.examName}</strong>
           <span style="color: var(--text); background: var(--bg); padding: 2px 6px; border-radius: 4px; font-size: 0.85rem;">${exam.stage}${exam.examContent ? '（' + exam.examContent + '）' : ''}</span>
         </div>
+        </div>
         <div style="font-size: 0.85rem; color: var(--muted); padding-left: 2px;">
-          <span style="margin-right: 12px;">📅 ${dateFormatted}</span>
+          <span style="margin-right: 12px;">📅 ${exam.date ? exam.date.replace('T', ' ') : '日程不明'}</span>
           ${exam.remarks ? `<span>📝 ${exam.remarks}</span>` : ''}
         </div>
       `;
@@ -207,8 +208,11 @@ const formDate = document.getElementById('form-date');
 const formStatus = document.getElementById('form-status');
 const formRemarks = document.getElementById('form-remarks');
 const addExamBtn = document.getElementById('add-exam-btn');
+const cancelEditBtn = document.getElementById('cancel-edit-btn');
 const exportDataBtn = document.getElementById('export-data-btn');
 const existingExamsList = document.getElementById('existing-exams-list');
+
+let editingIndex = null;
 
 openEditBtn.addEventListener('click', () => {
   editModal.style.display = 'flex';
@@ -218,8 +222,24 @@ openEditBtn.addEventListener('click', () => {
 
 closeModalBtn.addEventListener('click', () => {
   editModal.style.display = 'none';
+  if (cancelEditBtn) cancelEditBtn.click();
   initApp(); // 画面をリロード
 });
+
+if (cancelEditBtn) {
+  cancelEditBtn.addEventListener('click', () => {
+    editingIndex = null;
+    addExamBtn.textContent = 'この内容で予定を追加する';
+    cancelEditBtn.style.display = 'none';
+    
+    // フォームクリア
+    formExam.value = '';
+    formStage.value = '';
+    formContent.value = '';
+    formDate.value = '';
+    formRemarks.value = '';
+  });
+}
 
 function populateStudentDropdown() {
   formStudent.innerHTML = '';
@@ -234,8 +254,27 @@ function populateStudentDropdown() {
 function renderExistingExamsList() {
   existingExamsList.innerHTML = '';
   
-  // 日付の新しい順（降順）に表示
-  const sortedExams = [...appData.exams].sort((a, b) => b.date.localeCompare(a.date));
+  // Datalistの更新
+  const examList = document.getElementById('exam-list');
+  if (examList) {
+    examList.innerHTML = '';
+    const uniqueExams = [...new Set(appData.exams.map(e => e.examName))];
+    uniqueExams.forEach(name => {
+      if (name) {
+        const opt = document.createElement('option');
+        opt.value = name;
+        examList.appendChild(opt);
+      }
+    });
+  }
+  
+  // 日付の新しい順（降順）に表示、日付がないものは一番後ろ
+  const sortedExams = [...appData.exams].sort((a, b) => {
+    if (!a.date && !b.date) return 0;
+    if (!a.date) return 1;
+    if (!b.date) return -1;
+    return b.date.localeCompare(a.date);
+  });
   
   sortedExams.forEach((exam) => {
     const originalIndex = appData.exams.indexOf(exam);
@@ -248,14 +287,44 @@ function renderExistingExamsList() {
     div.style.display = 'flex';
     div.style.justifyContent = 'space-between';
     div.style.alignItems = 'center';
-    
-    const dateFormatted = exam.date.replace('T', ' ');
+    const dateFormatted = exam.date ? exam.date.replace('T', ' ') : '日程不明';
     div.innerHTML = `
       <div>
         <strong>${s ? s.name : '不明'}</strong> | ${exam.examName} (${exam.stage}${exam.examContent ? ' / ' + exam.examContent : ''})<br>
         <span style="font-size:0.8rem; color:var(--muted);">${dateFormatted} | ${exam.status}</span>
       </div>
     `;
+    
+    const btnContainer = document.createElement('div');
+    btnContainer.style.display = 'flex';
+    btnContainer.style.gap = '8px';
+    
+    const editBtn = document.createElement('button');
+    editBtn.textContent = '編集';
+    editBtn.style.background = 'var(--accent)';
+    editBtn.style.color = 'white';
+    editBtn.style.border = 'none';
+    editBtn.style.padding = '4px 8px';
+    editBtn.style.borderRadius = '4px';
+    editBtn.style.cursor = 'pointer';
+    editBtn.style.fontSize = '0.8rem';
+    
+    editBtn.addEventListener('click', () => {
+      editingIndex = originalIndex;
+      formStudent.value = exam.studentId || '';
+      formExam.value = exam.examName || '';
+      formStage.value = exam.stage || '';
+      formContent.value = exam.examContent || '';
+      formDate.value = exam.date || '';
+      formStatus.value = exam.status || '結果待ち';
+      formRemarks.value = exam.remarks || '';
+      
+      addExamBtn.textContent = '編集内容を保存する';
+      if (cancelEditBtn) cancelEditBtn.style.display = 'block';
+      
+      // 編集のために上にスクロール
+      document.querySelector('.modal-body') && document.querySelector('.modal-body').scrollTo(0, 0);
+    });
     
     const delBtn = document.createElement('button');
     delBtn.textContent = '削除';
@@ -274,7 +343,9 @@ function renderExistingExamsList() {
       }
     });
     
-    div.appendChild(delBtn);
+    btnContainer.appendChild(editBtn);
+    btnContainer.appendChild(delBtn);
+    div.appendChild(btnContainer);
     existingExamsList.appendChild(div);
   });
 }
@@ -293,7 +364,7 @@ addExamBtn.addEventListener('click', () => {
     return;
   }
   
-  appData.exams.push({
+  const newExam = {
     studentId: sId,
     examName: examName,
     stage: stage,
@@ -301,7 +372,16 @@ addExamBtn.addEventListener('click', () => {
     date: date || '',
     status: status,
     remarks: remarks
-  });
+  };
+  
+  if (editingIndex !== null) {
+    appData.exams[editingIndex] = newExam;
+    editingIndex = null;
+    addExamBtn.textContent = 'この内容で予定を追加する';
+    if (cancelEditBtn) cancelEditBtn.style.display = 'none';
+  } else {
+    appData.exams.push(newExam);
+  }
   
   // フォームクリア
   formExam.value = '';
