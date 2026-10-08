@@ -84,32 +84,44 @@ const appData = {
   
   // 本番の試験・面接予定と結果
   exams: [
-    {
-        "studentId": "26211002",
-        "examName": "国家税務",
-        "stage": "1次試験",
-        "examContent": "",
-        "date": "",
-        "status": "辞退",
-        "remarks": "行かなかった"
-    },
-    {
-        "studentId": "25211017",
-        "examName": "和歌山県警察",
-        "stage": "1次試験",
-        "examContent": "",
-        "date": "",
-        "status": "辞退",
-        "remarks": "湯浅町と被ったため"
-    },
-    {
-        "studentId": "25211017",
-        "examName": "国家税務",
-        "stage": "1次試験",
-        "examContent": "",
-        "date": "",
-        "status": "合格",
-        "remarks": ""
-    }
-]
+    { "studentId": "26211007", "examName": "橋本市", "stage": "1次試験", "examContent": "", "date": "", "status": "不合格", "remarks": "" },
+    { "studentId": "26211002", "examName": "橋本市 消防", "stage": "1次試験", "examContent": "", "date": "", "status": "不合格", "remarks": "" },
+    { "studentId": "25212002", "examName": "公立那賀病院", "stage": "1次試験", "examContent": "", "date": "", "status": "不合格", "remarks": "一次と二次両方同時に実施" },
+    { "studentId": "25212001", "examName": "和泉市", "stage": "1次試験", "examContent": "", "date": "", "status": "不合格", "remarks": "" },
+    { "studentId": "26211002", "examName": "和泉市 消防", "stage": "1次試験", "examContent": "", "date": "", "status": "不合格", "remarks": "" },
+    { "studentId": "25212007", "examName": "橋本市", "stage": "1次試験", "examContent": "", "date": "", "status": "不合格", "remarks": "" },
+    { "studentId": "25212007", "examName": "紀の川市", "stage": "1次試験", "examContent": "", "date": "", "status": "不合格", "remarks": "" },
+    { "studentId": "26211004", "examName": "守口門真 消防", "stage": "1次試験", "examContent": "", "date": "", "status": "不合格", "remarks": "" },
+    { "studentId": "26212005", "examName": "大阪府警察", "stage": "1次試験", "examContent": "", "date": "", "status": "合格", "remarks": "" },
+    { "studentId": "26212005", "examName": "大阪府警察", "stage": "2次試験", "examContent": "", "date": "2026-10-20", "status": "結果待ち", "remarks": "午後1:00〜 会場: 大阪府咲洲庁舎" },
+    { "studentId": "26211007", "examName": "裁判所事務官", "stage": "1次試験", "examContent": "", "date": "", "status": "合格", "remarks": "" },
+    { "studentId": "26211007", "examName": "裁判所事務官", "stage": "2次試験", "examContent": "", "date": "2026-10-21", "status": "結果待ち", "remarks": "会場: 和歌山地方裁判所" },
+    { "studentId": "25211017", "examName": "湯浅町", "stage": "1次試験", "examContent": "", "date": "", "status": "合格", "remarks": "" },
+    { "studentId": "25211017", "examName": "湯浅町", "stage": "2次試験", "examContent": "個人面接", "date": "2026-10-31", "status": "結果待ち", "remarks": "" },
+    { "studentId": "25211017", "examName": "裁判所事務官", "stage": "1次試験", "examContent": "", "date": "", "status": "合格", "remarks": "" },
+    { "studentId": "25211017", "examName": "裁判所事務官", "stage": "2次試験", "examContent": "人物試験", "date": "2026-10-21", "status": "結果待ち", "remarks": "" },
+    { "studentId": "25212004", "examName": "裁判所事務官", "stage": "1次試験", "examContent": "", "date": "", "status": "不合格", "remarks": "" },
+    { "studentId": "26211007", "examName": "国家税務", "stage": "1次試験", "examContent": "", "date": "", "status": "合格", "remarks": "" },
+    { "studentId": "26211007", "examName": "国家税務", "stage": "2次試験", "examContent": "", "date": "2026-10-15", "status": "結果待ち", "remarks": "12:15〜 会場: 大阪合同庁舎" },
+    { "studentId": "25212004", "examName": "国家税務", "stage": "1次試験", "examContent": "", "date": "", "status": "合格", "remarks": "" },
+    { "studentId": "25212004", "examName": "国家税務", "stage": "2次試験", "examContent": "", "date": "2026-10-14", "status": "結果待ち", "remarks": "12:00〜 会場: 大阪合同庁舎" },
+    { "studentId": "25212004", "examName": "和歌山市", "stage": "1次試験", "examContent": "", "date": "", "status": "不合格", "remarks": "" },
+    { "studentId": "25212002", "examName": "国家税務", "stage": "1次試験", "examContent": "", "date": "", "status": "合格", "remarks": "" },
+    { "studentId": "25212002", "examName": "国家税務", "stage": "2次試験", "examContent": "人物試験・身体検査", "date": "2026-10-14", "status": "結果待ち", "remarks": "12:00受付開始 12:15試験開始" },
+    { "studentId": "25212002", "examName": "和歌山市", "stage": "1次試験", "examContent": "", "date": "", "status": "不合格", "remarks": "" },
+    { "studentId": "26212002", "examName": "国家税務", "stage": "1次試験", "examContent": "", "date": "", "status": "合格", "remarks": "" },
+    { "studentId": "26212002", "examName": "国家税務", "stage": "2次試験", "examContent": "身体検査・個別面接", "date": "2026-10-14", "status": "結果待ち", "remarks": "近畿" },
+    { "studentId": "25212001", "examName": "国家税務", "stage": "1次試験", "examContent": "", "date": "", "status": "不合格", "remarks": "" },
+    { "studentId": "26211003", "examName": "国家税務", "stage": "1次試験", "examContent": "", "date": "", "status": "合格", "remarks": "" },
+    { "studentId": "26211003", "examName": "国家税務", "stage": "2次試験", "examContent": "", "date": "2026-10-14", "status": "結果待ち", "remarks": "" },
+    { "studentId": "25212006", "examName": "国家税務", "stage": "1次試験", "examContent": "", "date": "", "status": "合格", "remarks": "" },
+    { "studentId": "25212006", "examName": "国家税務", "stage": "2次試験", "examContent": "", "date": "", "status": "結果待ち", "remarks": "日程未定" },
+    { "studentId": "26211002", "examName": "和泉市", "stage": "1次試験", "examContent": "", "date": "", "status": "不合格", "remarks": "" },
+    { "studentId": "25212007", "examName": "国家税務", "stage": "1次試験", "examContent": "", "date": "", "status": "合格", "remarks": "" },
+    { "studentId": "25212007", "examName": "国家税務", "stage": "2次試験", "examContent": "", "date": "2026-10-14", "status": "結果待ち", "remarks": "" },
+    { "studentId": "25211017", "examName": "国家税務", "stage": "1次試験", "examContent": "", "date": "", "status": "合格", "remarks": "" },
+    { "studentId": "25211017", "examName": "国家税務", "stage": "2次試験", "examContent": "", "date": "2026-10-14", "status": "結果待ち", "remarks": "" },
+    { "studentId": "25211017", "examName": "和歌山県警察", "stage": "1次試験", "examContent": "", "date": "", "status": "辞退", "remarks": "湯浅町と被ったため" },
+    { "studentId": "26211002", "examName": "国家税務", "stage": "1次試験", "examContent": "", "date": "", "status": "辞退", "remarks": "行かなかった" }
+  ]
 };
