@@ -89,8 +89,35 @@ function renderCalendar(date) {
         
         const time = exam.date.includes('T') ? exam.date.split('T')[1] : '';
         const studentName = student ? student.name : '不明な学生';
+        const lastName = studentName.split(/[\s　]+/)[0];
+        const shortStage = exam.stage.replace(/試験|面接/g, ''); // "1次" などに短縮
         
-        eventEl.innerHTML = `<strong>${studentName}</strong><br>${exam.examName}<br><span style="color:var(--muted); font-size:0.8rem;">${exam.stage}${exam.examContent ? '（' + exam.examContent + '）' : ''} ${time}</span>`;
+        eventEl.innerHTML = `<strong>${lastName}</strong><br><span style="font-size:0.75rem;">${exam.examName} (${shortStage})</span>`;
+        eventEl.style.cursor = 'pointer';
+        
+        // 詳細モーダル表示イベント
+        eventEl.addEventListener('click', () => {
+          let statusColor = 'var(--bg)';
+          let textColor = 'var(--text)';
+          if (exam.status === '合格') { statusColor = 'var(--passed)'; textColor = 'var(--passed-dark)'; }
+          else if (exam.status === '不合格' || exam.status === '辞退') { statusColor = 'var(--failed)'; textColor = 'var(--failed-dark)'; }
+
+          eventDetailContent.innerHTML = `
+            <div style="margin-bottom:12px;">
+              <span style="display:inline-block; padding:4px 8px; background:${statusColor}; color:${textColor}; border-radius:4px; font-size:0.8rem; font-weight:bold; margin-bottom:8px;">${exam.status}</span><br>
+              <strong style="font-size:1.2rem;">${studentName}</strong>
+            </div>
+            <table style="width:100%; border-collapse:collapse; font-size:0.9rem;">
+              <tr><td style="padding:6px 0; color:var(--muted); width:80px; border-bottom:1px solid #e2e8f0;">受験先</td><td style="padding:6px 0; border-bottom:1px solid #e2e8f0;"><strong>${exam.examName}</strong></td></tr>
+              <tr><td style="padding:6px 0; color:var(--muted); border-bottom:1px solid #e2e8f0;">選考段階</td><td style="padding:6px 0; border-bottom:1px solid #e2e8f0;">${exam.stage}</td></tr>
+              ${exam.examContent ? `<tr><td style="padding:6px 0; color:var(--muted); border-bottom:1px solid #e2e8f0;">試験内容</td><td style="padding:6px 0; border-bottom:1px solid #e2e8f0;">${exam.examContent}</td></tr>` : ''}
+              <tr><td style="padding:6px 0; color:var(--muted); border-bottom:1px solid #e2e8f0;">日程</td><td style="padding:6px 0; border-bottom:1px solid #e2e8f0;">${exam.date ? exam.date.replace('T', ' ') : '日程不明'}</td></tr>
+              ${exam.remarks ? `<tr><td style="padding:6px 0; color:var(--muted);">備考</td><td style="padding:6px 0;">${exam.remarks.replace(/\n/g, '<br>')}</td></tr>` : ''}
+            </table>
+          `;
+          eventDetailModal.style.display = 'flex';
+        });
+
         div.appendChild(eventEl);
       }
     });
@@ -212,6 +239,12 @@ const cancelEditBtn = document.getElementById('cancel-edit-btn');
 const exportDataBtn = document.getElementById('export-data-btn');
 const existingExamsList = document.getElementById('existing-exams-list');
 
+// イベント詳細モーダル用変数
+const eventDetailModal = document.getElementById('event-detail-modal');
+const eventDetailContent = document.getElementById('event-detail-content');
+const closeDetailModalBtn = document.getElementById('close-detail-modal-btn');
+const closeDetailModalBtn2 = document.getElementById('close-detail-modal-btn2');
+
 let editingIndex = null;
 
 openEditBtn.addEventListener('click', () => {
@@ -224,6 +257,19 @@ closeModalBtn.addEventListener('click', () => {
   editModal.style.display = 'none';
   if (cancelEditBtn) cancelEditBtn.click();
   initApp(); // 画面をリロード
+});
+
+// イベント詳細モーダルの閉じる処理
+closeDetailModalBtn.addEventListener('click', () => {
+  eventDetailModal.style.display = 'none';
+});
+closeDetailModalBtn2.addEventListener('click', () => {
+  eventDetailModal.style.display = 'none';
+});
+window.addEventListener('click', (e) => {
+  if (e.target === eventDetailModal) {
+    eventDetailModal.style.display = 'none';
+  }
 });
 
 if (cancelEditBtn) {
