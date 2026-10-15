@@ -112,7 +112,7 @@ const appData = {
     { "studentId": "26212002", "examName": "国家税務", "stage": "1次試験", "examContent": "", "date": "", "status": "合格", "remarks": "" },
     { "studentId": "26212002", "examName": "国家税務", "stage": "2次試験", "examContent": "身体検査・個別面接", "date": "2026-10-14", "status": "結果待ち", "remarks": "近畿" },
     { "studentId": "25212001", "examName": "国家税務", "stage": "1次試験", "examContent": "", "date": "", "status": "不合格", "remarks": "" },
-    { "studentId": "25211004", "examName": "国家税務", "stage": "1次試験", "examContent": "", "date": "", "status": "不合格", "remarks": "" },
+    { "studentId": "26211004", "examName": "国家税務", "stage": "1次試験", "examContent": "", "date": "", "status": "不合格", "remarks": "" },
     { "studentId": "26211003", "examName": "国家税務", "stage": "1次試験", "examContent": "", "date": "", "status": "合格", "remarks": "" },
     { "studentId": "26211003", "examName": "国家税務", "stage": "2次試験", "examContent": "", "date": "2026-10-14", "status": "結果待ち", "remarks": "" },
     { "studentId": "26211003", "examName": "岩出市", "stage": "1次試験", "examContent": "", "date": "", "status": "合格", "remarks": "" },
@@ -125,6 +125,12 @@ const appData = {
     { "studentId": "25211017", "examName": "国家税務", "stage": "1次試験", "examContent": "", "date": "", "status": "合格", "remarks": "" },
     { "studentId": "25211017", "examName": "国家税務", "stage": "2次試験", "examContent": "", "date": "2026-10-14", "status": "結果待ち", "remarks": "" },
     { "studentId": "25211017", "examName": "和歌山県警察", "stage": "1次試験", "examContent": "", "date": "", "status": "辞退", "remarks": "湯浅町と被ったため" },
-    { "studentId": "26211002", "examName": "国家税務", "stage": "1次試験", "examContent": "", "date": "", "status": "辞退", "remarks": "行かなかった" }
+    { "studentId": "26211002", "examName": "国家税務", "stage": "1次試験", "examContent": "", "date": "", "status": "辞退", "remarks": "行かなかった" },
+    { "studentId": "26211003", "examName": "枚方市", "stage": "1次試験", "examContent": "", "date": "", "status": "合格", "remarks": "" },
+    { "studentId": "26211003", "examName": "枚方市", "stage": "2次試験", "examContent": "", "date": "2026-10-22", "status": "結果待ち", "remarks": "" },
+    { "studentId": "25212001", "examName": "奈良県立病院機構", "stage": "1次試験", "examContent": "テストセンター", "date": "2026-10-14", "status": "結果待ち", "remarks": "" },
+    { "studentId": "26212001", "examName": "和歌山県警察", "stage": "1次試験", "examContent": "", "date": "", "status": "合格", "remarks": "" },
+    { "studentId": "26212001", "examName": "和歌山県警察", "stage": "2次試験", "examContent": "", "date": "", "status": "辞退", "remarks": "メールに気づかなかったため" },
+    { "studentId": "25212001", "examName": "天川村", "stage": "1次試験", "examContent": "テストセンター", "date": "2026-10-15", "status": "結果待ち", "remarks": "" }
   ]
 };
